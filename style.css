@@ -103,7 +103,7 @@ h1, h2, h3 {
 }
 .marquee-track {
   display:inline-flex; align-items:center; gap:3rem;
-  animation: marquee 24s linear infinite;
+  animation: marquee 36s linear infinite;
   text-transform: uppercase; letter-spacing:.1em; white-space:nowrap; line-height:1;
 }
 @keyframes marquee { from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
@@ -244,7 +244,7 @@ footer { border-top:1px solid var(--line); background:#121212; color:#aaa; }
 #services { position: relative; z-index:0; background: transparent; }
 #services::before{
   content:""; position:absolute; left:50%; transform:translateX(-50%);
-  top:-120px; width:100vw; height:900px; z-index:-1; pointer-events:none;
+  top:-120px; width:100vw; height:1500px; z-index:-1; pointer-events:none;
   background:
     radial-gradient(60% 90% at 25% 12%, rgba(200,80,192,0.28), transparent 62%),
     radial-gradient(60% 90% at 75% 30%, rgba(255,111,97,0.22), transparent 68%),
