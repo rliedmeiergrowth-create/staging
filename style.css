@@ -76,7 +76,7 @@ h1, h2, h3 {
   line-height: 1.08; font-size: clamp(2rem, 5vw, 3.8rem); max-width: 20ch;
 }
 
-/* Soft color that begins in the hero and gently fades toward the marquee */
+/* soft color starts in hero and fades towards marquee */
 .hero::before{
   content:"";
   position:absolute;
@@ -105,7 +105,6 @@ h1, h2, h3 {
 }
 .marquee-track {
   display:inline-flex; align-items:center; gap:3rem;
-  padding:0;
   animation: marquee 24s linear infinite;
   text-transform: uppercase; letter-spacing:.1em; white-space:nowrap; line-height:1;
 }
@@ -143,7 +142,7 @@ h1, h2, h3 {
 .service-image-large img { aspect-ratio: 4 / 3; object-fit: cover; }
 .service-image-small img { aspect-ratio: 1 / 1; object-fit: cover; }
 
-/* Service titles: same gradient look as the big section heading */
+/* Service titles: gradient text (same look as big section title), no button chrome on desktop */
 .service-title-btn,
 .service-title-italic{
   background: linear-gradient(90deg, #ffb347, #ff6f61, #c850c0);
@@ -151,7 +150,11 @@ h1, h2, h3 {
   -webkit-text-fill-color: transparent; color: transparent;
   font-style: italic; font-weight:700; font-size:1.25rem;
   margin-bottom:.35rem; line-height:1.25;
+  background-color: transparent; border: none; padding: 0;
+  appearance:none; -webkit-appearance:none;
 }
+
+/* keep copy styles */
 .service-paragraph { color: var(--dim); margin-bottom:.5rem; }
 .service-subtitle { font-weight:700; margin:.35rem 0; }
 .service-paragraph-small { color: var(--dim); font-size:.95rem; }
@@ -161,15 +164,15 @@ h1, h2, h3 {
   .service-item.reverse { grid-template-columns: 1fr; }
 }
 
-/* Mobile-only accordion */
+/* Mobile accordion */
 @media (max-width: 768px){
   .service-image { display: none !important; }
   .service-item,
   .service-item.reverse { padding: 12px 0; }
   .service-title-btn{
-    width: 100%; background: none; border: none;
-    padding: .6rem 0; text-align: left; display: flex; align-items: center; gap: .6rem;
-    cursor: pointer;
+    width: 100%;
+    text-align: left; display: flex; align-items: center; gap: .6rem;
+    cursor: pointer; padding: .6rem 0;
   }
   .service-title-btn .chev{
     width: 10px; height: 10px; border-right: 2px solid #fff; border-bottom: 2px solid #fff;
@@ -179,13 +182,18 @@ h1, h2, h3 {
   .service-item.open .service-title-btn .chev{ transform: rotate(45deg); }
   .service-item.open .service-collapse{ display: block; }
 }
+
+/* On desktop, titles are not interactive — remove all button chrome/outline */
 @media (min-width: 769px){
-  .service-title-btn{ padding: 0; cursor: default; }
+  .service-title-btn{
+    cursor: default; padding: 0;
+    background: none; border: none; outline: none; box-shadow: none;
+  }
   .service-title-btn .chev{ display: none; }
   .service-collapse{ display: block !important; padding-left: 0; }
 }
 
-/* ===== Offer (two-column; diamond + divider) ===== */
+/* ===== Offer ===== */
 #offer { position:relative; overflow:hidden; }
 .offer-container{ position:relative; z-index:1; display:grid; grid-template-columns:1fr 1.4fr; gap:2.2rem; align-items:start; }
 .offer-intro{ display:grid; align-content:start; gap:.85rem; }
@@ -214,7 +222,7 @@ h1, h2, h3 {
 .contact-section {
   position: relative;
   border-top: 1px solid var(--line);
-  background: transparent; /* unified gradient handles it */
+  background: transparent;
 }
 .contact-container{ display:grid; grid-template-columns:1.2fr .8fr; gap:2.5rem; align-items:center; }
 @media (max-width:900px){ .contact-container{ grid-template-columns:1fr; text-align:center; } }
@@ -231,71 +239,45 @@ footer { border-top:1px solid var(--line); background:#121212; color:#aaa; }
 .footer-container { padding:22px 0; display:flex; flex-wrap:wrap; gap:.5rem; justify-content:space-between; }
 @media (max-width:640px){ .footer-container { flex-direction:column; gap:.25rem; } }
 
-/* ===== Unified continuous gradient: Hero → Services → Offer (mid bloom) → Contact (final bloom) ===== */
-#services, #offer, .contact-section {
-  position: relative;
-  z-index: 0;
-  background: transparent;
-}
+/* ===== GRADIENTS ===== */
 
-/* Disable any old per-section gradient layers */
-.offer-bleed { display: none; }
-
-/* One full-bleed layer:
-   - Top bloom (Services)
-   - Mid fade to dark
-   - ***Mid comeback bloom around Offer***
-   - Final comeback color near end of Contact */
+/* Services: subtle color at top of Services, fade out before Offer */
+#services { position: relative; z-index:0; background: transparent; }
 #services::before{
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -120px;                          /* begins just above Services */
-  transform: translateX(-50%);
-  width: 100vw;                          /* full viewport width */
-  height: 2800px;                        /* tall enough: Services + Offer + Contact */
-  z-index: -1;
-  pointer-events: none;
-
+  content:""; position:absolute; left:50%; transform:translateX(-50%);
+  top:-120px; width:100vw; height:900px; z-index:-1; pointer-events:none;
   background:
-    /* TOP color bloom (Services zone) */
-    radial-gradient(60% 90% at 25% 10%, rgba(200,80,192,0.28), transparent 62%),
-    radial-gradient(60% 90% at 75% 26%, rgba(255,111,97,0.22), transparent 68%),
-
-    /* MID fade to dark (between Services and Offer) */
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 0%,
-      rgba(14,14,14,0.55) 40%,
-      rgba(14,14,14,0.88) 52%,
-      rgba(14,14,14,0.75) 58%,
-      rgba(14,14,14,0.00) 60%   /* clear to reveal the next bloom */
-    ),
-
-    /* *** MID COMEBACK bloom (centered over Offer section) *** */
-    radial-gradient(65% 85% at 28% 65%, rgba(200,80,192,0.20), transparent 70%),
-    radial-gradient(65% 85% at 74% 70%, rgba(255,111,97,0.18), transparent 72%),
-
-    /* Subtle dark band so it doesn't overpower Contact intro */
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 70%,
-      rgba(14,14,14,0.45) 78%,
-      rgba(14,14,14,0.30) 84%,
-      rgba(14,14,14,0.00) 88%
-    ),
-
-    /* BOTTOM comeback color (end of Contact) */
-    radial-gradient(70% 85% at 30% 94%, rgba(200,80,192,0.26), transparent 70%),
-    radial-gradient(65% 90% at 72% 98%, rgba(255,180,70,0.24), transparent 74%);
-
+    radial-gradient(60% 90% at 25% 12%, rgba(200,80,192,0.28), transparent 62%),
+    radial-gradient(60% 90% at 75% 30%, rgba(255,111,97,0.22), transparent 68%),
+    /* fade back to black so Offer can start from black */
+    linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(14,14,14,0.9) 100%);
   filter: blur(18px);
 }
 
-/* Optional: tweak the span for very tall screens */
-@media (min-height: 1100px){
-  #services::before{ height: 3200px; }
+/* NEW: Offer gradient — starts BLACK, then rolls into color,
+   and carries color toward the lower page */
+#offer { position:relative; z-index:0; background: transparent; }
+#offer::before{
+  content:""; position:absolute; left:50%; transform:translateX(-50%);
+  top:-100px; width:100vw; height:1300px; z-index:-1; pointer-events:none;
+
+  /* first a dark top, then reveal color glows */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.95) 0%,
+      rgba(0,0,0,0.75) 18%,
+      rgba(0,0,0,0.45) 32%,
+      rgba(0,0,0,0.00) 42%
+    ),
+    radial-gradient(65% 85% at 28% 55%, rgba(200,80,192,0.22), transparent 70%),
+    radial-gradient(65% 85% at 74% 68%, rgba(255,111,97,0.20), transparent 72%),
+    radial-gradient(70% 90% at 50% 98%, rgba(255,180,70,0.20), transparent 78%);
+  filter: blur(18px);
 }
+
+/* Contact: keep clean; the Offer layer already bleeds down */
+.contact-section { position:relative; z-index:0; background: transparent; }
 
 /* ===== About page portrait helper (safe globally) ===== */
 .about-portrait{ width: 85%; max-width: 420px; height:auto; display:block; border-radius:16px; border:1px solid var(--line); background:#121212; }
