@@ -513,7 +513,7 @@ footer {
   width:100vw;
 
   /* extend the glow farther down the Services list */
-  height:1300px;
+  height:2000px;
 
   z-index:-1;
   pointer-events:none;
